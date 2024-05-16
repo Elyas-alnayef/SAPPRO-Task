@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task/const/colors.dart';
+import 'package:task/cubit/network_cubit.dart';
 import 'package:task/cubit/user_cubit.dart';
 import 'package:task/views/widgets/dropdownb.dart';
 import 'package:task/views/widgets/usercard.dart';
@@ -29,6 +30,31 @@ class _HomepageState extends State<Homepage> {
           style:
               TextStyle(fontWeight: FontWeight.bold, color: Appcolor.primary2),
         ),
+        actions: [
+          BlocBuilder<NetworkCubit, NetworkState>(
+            builder: (context, state) {
+              if (state is Connected) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.wifi,
+                    color: Appcolor.primary2,
+                    size: 20,
+                  ),
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.wifi_off_outlined,
+                    color: Appcolor.primary2,
+                    size: 20,
+                  ),
+                );
+              }
+            },
+          )
+        ],
         centerTitle: true,
         backgroundColor: Appcolor.buttoncolor,
         toolbarHeight: 40,

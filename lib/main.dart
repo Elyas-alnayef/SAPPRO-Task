@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:task/cubit/network_cubit.dart';
 import 'package:task/cubit/user_cubit.dart';
 import 'package:task/model/coordinates.dart';
 import 'package:task/model/user.dart';
@@ -8,7 +9,6 @@ import 'package:task/model/user.dart';
 import 'cubit/search_cubit_cubit.dart';
 import 'views/homepage.dart';
 import 'model/address.dart';
-import 'res.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +28,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-          BlocProvider<UserCubit>(create: (context) => UserCubit()..getallusres()),
-          BlocProvider<SearchCubitCubit>(create: (context) => SearchCubitCubit()),
+        BlocProvider<UserCubit>(
+            create: (context) => UserCubit()..getallusres()),
+        BlocProvider<SearchCubitCubit>(create: (context) => SearchCubitCubit()),
+        BlocProvider<NetworkCubit>(
+            create: (context) => NetworkCubit()..checkNetworkConnection()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

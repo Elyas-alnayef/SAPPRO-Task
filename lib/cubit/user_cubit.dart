@@ -1,10 +1,8 @@
-import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import '../model/user.dart';
 
