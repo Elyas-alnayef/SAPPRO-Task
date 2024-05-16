@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task/cubit/network_cubit.dart';
 
 import '../../const/colors.dart';
 
@@ -11,7 +13,6 @@ Widget usercard({
   required String gender,
   required String birthdate,
   required String imageurl,
-  required bool imagestate,
 }) =>
     Container(
       decoration: BoxDecoration(
@@ -125,19 +126,26 @@ Widget usercard({
                 Spacer(),
                 Column(
                   children: [
-                    imagestate
-                        ? Image.network(
+                    BlocBuilder<NetworkCubit, NetworkState>(
+                      builder: (context, state) {
+                        if (state is Connected) {
+                          return Image.network(
                             imageurl,
                             width: 100,
                             height: 100,
-                          )
-                        : Container(
-                            height: 100,
-                            width: 100,
-                            child: Icon(
-                              Icons.person,
-                              size: 75,
-                            ))
+                          );
+                        } else {
+                          return Container(
+                              height: 100,
+                              width: 100,
+                              child: Icon(
+                                Icons.wifi_off,
+                                size: 75,
+                                color: Appcolor.buttoncolor,
+                              ));
+                        }
+                      },
+                    )
                   ],
                 ),
               ],

@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    //bloc providers to add the bloc to the wiget tree
     return MultiBlocProvider(
       providers: [
         BlocProvider<UserCubit>(

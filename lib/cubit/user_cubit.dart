@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
@@ -12,7 +11,9 @@ class UserCubit extends Cubit<UserState> {
   late List<dynamic> hiveusers;
 
   UserCubit() : super(UserInitial(hiveusers: []));
-
+  //this function used to get the users from the api and save in the local storage
+  //if the users saved before the function will not save them agin
+  //if there is no internet connection the function will run getallusresfromhive function to get the users from local storage
   Future<void> getallusres() async {
     final List<ConnectivityResult> connectivityResult =
         await (Connectivity().checkConnectivity());
@@ -44,99 +45,22 @@ class UserCubit extends Cubit<UserState> {
       }
     } else {
       hiveusers = await getallusresfromhive();
-      emit(Successgetstate(hiveusers: hiveusers, internetstate: false));
+      if (hiveusers.isEmpty) {
+        emit(Errorstate(error: "There is no data to get"));
+      } else {
+        emit(Successgetstate(hiveusers: hiveusers, internetstate: false));
+      }
     }
   }
 
+  //this function used to get all the users from the local storage and returns them as user list
   Future getallusresfromhive() async {
     try {
       var box = await Hive.box('useee');
       List<dynamic> hiveusers = box.values.toList();
-
       return hiveusers;
     } catch (e) {
       print(e);
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Map<String, dynamic> user = {
-//       'id': response.data['users'][1]['id'],
-//       'name': response.data['users'][1]['firstName'],
-//       'lastname': response.data['users'][1]['lastName'],
-//       'age': response.data['users'][1]['age'],
-//       'gender': response.data['users'][1]['gender'],
-//       'email': response.data['users'][1]['email'],
-//       'phone': response.data['users'][1]['phone'],
-//       'birthDate': response.data['users'][1]['birthDate'],
-//       'iamge': response.data['users'][1]['iamge'],
-//       'address': response.data['users'][1]['address'],
-//     }
-
-
-
-
-
-// try {
-//       var box = await Hive.box('useee');
-//       List<dynamic> users = await getallusresfromhive();
-//       final dio = Dio();
-//       for (int i = 0; i < users.length; i++) {
-//         try {
-//           final response = await dio.get(users.cast<User>()[i].image);
-//           Uint8List imageBytes = response.data.readAsBytes();
-//           String base64String = base64Encode(imageBytes);
-//           print('jjjjjjjjjjj' + base64String);
-//         } catch (e) {
-//           print('something went wrong ');
-//         }
-
-//         
-//       }
-//     } catch (e) {
-//       print(e);
-//     }
-
-
-
-
-
-
-

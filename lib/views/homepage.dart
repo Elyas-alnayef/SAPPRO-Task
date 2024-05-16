@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task/const/colors.dart';
@@ -6,7 +5,6 @@ import 'package:task/cubit/network_cubit.dart';
 import 'package:task/cubit/user_cubit.dart';
 import 'package:task/views/widgets/dropdownb.dart';
 import 'package:task/views/widgets/usercard.dart';
-
 import '../cubit/search_cubit_cubit.dart';
 import 'widgets/button.dart';
 import 'widgets/searchresultdialog.dart';
@@ -177,18 +175,52 @@ class _HomepageState extends State<Homepage> {
                 return ListView.separated(
                     itemBuilder: (context, index) {
                       return usercard(
-                          name: state.hiveusers[index].name,
-                          lastname: state.hiveusers[index].lastName,
-                          age: state.hiveusers[index].age.toString(),
-                          gender: state.hiveusers[index].gender,
-                          birthdate: state.hiveusers[index].birthDate,
-                          imageurl: state.hiveusers[index].image,
-                          imagestate: state.internetstate);
+                        name: state.hiveusers[index].name,
+                        lastname: state.hiveusers[index].lastName,
+                        age: state.hiveusers[index].age.toString(),
+                        gender: state.hiveusers[index].gender,
+                        birthdate: state.hiveusers[index].birthDate,
+                        imageurl: state.hiveusers[index].image,
+                      );
                     },
                     separatorBuilder: (context, index) => SizedBox(
                           height: 10,
                         ),
                     itemCount: state.hiveusers.length);
+              } else if (state is Errorstate) {
+                return Center(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(color: Appcolor.alerts),
+                        boxShadow: [
+                          BoxShadow(
+                              color: const Color.fromARGB(255, 70, 226, 200),
+                              offset: Offset(1, 1))
+                        ]),
+                    height: 180,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.warning,
+                          color: Colors.red,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Text(
+                          "there is no data to load \n close the app turn on your \nwifi  then try agin",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                );
               }
               return Container();
             },
